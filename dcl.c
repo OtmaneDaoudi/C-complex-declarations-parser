@@ -4,7 +4,69 @@ int tokenType;
 token lastToken;  
 
 char datatype[MAX_TOKEN_SIZE];
-char out[MAX_BUFFER_SIZE]; 
+// char out[MAX_BUFFER_SIZE]; 
+
+void dcl(void)      
+{
+    int temp, count = 0; 
+    while((temp = getchar()) == '*') count++; 
+    ungetc(temp, stdin); 
+    dir_dcl(); 
+    for(int i=0; i<count; i++) printf("pointer to "); 
+}
+
+void dir_dcl(void)
+{
+    getToken(); 
+    if(tokenType == NAME)
+    {
+        printf("%s is a ", lastToken.identifier);
+        dir_dcl(); 
+    }
+    else if(tokenType == O_PARAN)
+    {
+        char c = getchar(); //store next token
+        if(c == ')') //dir-dcl()
+        {
+            printf("function returning "); 
+            dir_dcl(); 
+        }
+        else //(dcl)
+        {
+            ungetc(c, stdin); 
+            dcl(); 
+        }
+    }
+    else if(tokenType == O_BRACKET)
+    {
+        getToken(); 
+        if(tokenType == NUMBER)
+        {
+            int size = lastToken.size; 
+            getToken(); 
+            if(tokenType == C_BRACKET)
+            {
+                printf("array of size %d ", size); 
+                dir_dcl(); 
+            }
+            else
+            {
+                printf("syntax error \n"); 
+                exit(EXIT_FAILURE); 
+            }
+        }
+        else if(tokenType == C_BRACKET)
+        {
+            printf("array of "); 
+            dir_dcl(); 
+        }
+    }
+    else 
+    {
+        printf("syntax error [outer]\n");
+        exit(EXIT_FAILURE); 
+    } 
+}
 
 void getToken(void)
 {
@@ -25,9 +87,6 @@ void getToken(void)
             break; 
         case '[':
             lastToken.other = tokenType = O_BRACKET;
-            break; 
-        case '*':
-            tokenType = X; 
             break; 
         default: //name or numbers  
             if(isalpha(c))
