@@ -9,19 +9,21 @@
 #define MAX_TOKEN_SIZE 100
 #define MAX_BUFFER_SIZE 200
 
-enum TOKENS{NAME, O_PARAN, C_PARAN, O_BRACKET, C_BRACKET, NUMBER, END};
+enum TOKENS{NAME, NUMBER};
 
-union token
+union token_t
 {
     int size; //size for arrays
-    char identifier[MAX_BUFFER_SIZE]; //names of variables
-    int other; 
+    char identifier; //names of variables
 }; 
-typedef union token token; 
-
+typedef union token_t token_t; 
 
 void dcl(void); 
-void dir_dcl(void); 
-void getToken(void);
+void A(void);
+void dirdcl(void);
+void dirdcl1(void); 
+void dirdcl2(void); 
+
+void getToken(void); //fetch next token from stdin
 
 #endif

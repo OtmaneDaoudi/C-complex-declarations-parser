@@ -1,104 +1,56 @@
 #include "dcl.h"
 
-int tokenType;
-token lastToken;  
+char token;
+token_t token_data;  
 
 char datatype[MAX_TOKEN_SIZE];
 // char out[MAX_BUFFER_SIZE]; 
 
-void dcl(void)      
+void dcl(void)
 {
-    int temp, count = 0; 
-    while((temp = getchar()) == '*') count++; 
-    ungetc(temp, stdin); 
-    dir_dcl(); 
-    for(int i=0; i<count; i++) printf("pointer to "); 
+    return; 
 }
 
-void dir_dcl(void)
+void A(void)
 {
-    getToken(); 
-    if(tokenType == NAME)
-    {
-        printf("%s is a ", lastToken.identifier);
-        dir_dcl(); 
-    }
-    else if(tokenType == O_PARAN)
-    {
-        char c = getchar(); //store next token
-        if(c == ')') //dir-dcl()
-        {
-            printf("function returning "); 
-            dir_dcl(); 
-        }
-        else //(dcl)
-        {
-            ungetc(c, stdin); 
-            dcl(); 
-        }
-    }
-    else if(tokenType == O_BRACKET)
-    {
-        getToken(); 
-        if(tokenType == NUMBER)
-        {
-            int size = lastToken.size; 
-            getToken(); 
-            if(tokenType == C_BRACKET)
-            {
-                printf("array of size %d ", size); 
-                dir_dcl(); 
-            }
-            else
-            {
-                printf("syntax error \n"); 
-                exit(EXIT_FAILURE); 
-            }
-        }
-        else if(tokenType == C_BRACKET)
-        {
-            printf("array of "); 
-            dir_dcl(); 
-        }
-    }
-    else 
-    {
-        printf("syntax error [outer]\n");
-        exit(EXIT_FAILURE); 
-    } 
+    return; 
+}
+
+void dirdcl(void)
+{
+    return; 
+}
+
+void dirdcl1(void)
+{
+    return;
+}
+
+void dirdcl2(void)
+{
+
 }
 
 void getToken(void)
 {
-    //can be further obtimised with automatons
     //works only with one char identifiers and one-digit sizes
+    //can be further obtimized with automatons
     char c;
-    if((c = getchar()) == EOF) return;
-    switch(c)
+    c = getchar();
+    if(c == '(' || c == ')' || c == ']' || c == '[' || c == '*') token = c; //[ ] ( ) *
+    else if(isdigit(c)) // NUMBER
     {
-        case '(':
-            lastToken.other = tokenType = O_PARAN;
-            break;  
-        case ')':
-            lastToken.other = tokenType = C_PARAN;
-            break; 
-        case ']':
-            lastToken.other = tokenType = C_BRACKET;
-            break; 
-        case '[':
-            lastToken.other = tokenType = O_BRACKET;
-            break; 
-        default: //name or numbers  
-            if(isalpha(c))
-            {
-                lastToken.identifier[0] = c; 
-                lastToken.identifier[1] = 0;
-                tokenType = NAME; 
-            }
-            else if(isdigit(c))
-            {
-                lastToken.size = atoi(&c); 
-                tokenType = NUMBER;
-            }
+        token = NUMBER; 
+        token_data.size = atoi(&c); 
+    }
+    else if(isalpha(c)) // NAME
+    {
+        token = NAME; 
+        token_data.identifier = c; 
+    }
+    else 
+    {
+        printf("ERROR : %c is not a valid input\n", c); 
+        exit(EXIT_FAILURE); 
     }
 }
