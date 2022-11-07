@@ -9,7 +9,7 @@
 #define MAX_TOKEN_SIZE 100
 #define MAX_BUFFER_SIZE 200
 
-enum TOKENS{NAME, NUMBER};
+enum TOKENS{NAME, NUMBER, END};
 
 union token_t
 {
@@ -25,5 +25,4 @@ void dirdcl1(void);
 void dirdcl2(void); 
 
 void getToken(void); //fetch next token from stdin
-
 #endif
