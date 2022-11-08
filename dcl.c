@@ -24,7 +24,7 @@ void A(void)
     {
         getToken();
         A(); 
-        printf(" pointer to\n"); 
+        // printf(" pointer to\n"); 
     }
     return; 
 }
@@ -58,7 +58,11 @@ void dirdcl1(void)
     if(token == '(')
     {
         getToken();
-        if(token == ')') dirdcl1(); 
+        if(token == ')') 
+        {
+            getToken(); 
+            dirdcl1(); 
+        }
         else printf("ERROR: syntax error, missing ) [last token = %c].\n", token); 
     }
     else if(token == '[')
@@ -82,6 +86,7 @@ void dirdcl2(void)
         getToken(); 
         if(token == ']')
         {
+            getToken(); 
             dirdcl1(); 
         }
         else printf("ERROR: missing ].[last token %c]\n", token); 
