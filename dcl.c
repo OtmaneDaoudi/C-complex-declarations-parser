@@ -8,6 +8,7 @@ char varName;
 
 void dcl(void)
 {
+    printf("dcl\n");
     if(token == '*' || token == '(' || token == NAME) //A dirdcl
     {
         A(); 
@@ -18,28 +19,34 @@ void dcl(void)
 
 void A(void)
 {
+    printf("A\n"); 
     if(token == '*') //*A  else : return = epsilon
     {
         getToken();
         A(); 
-        printf(" pointer to"); 
+        printf(" pointer to\n"); 
     }
     return; 
 }
 
 void dirdcl(void)
 {
+    printf("dirdcl\n"); 
     if(token == '(') //(dcl)dirdcl'
     {
         getToken(); //consume (
         dcl(); 
-        if(token == ')') getToken(); //consume
-        else printf("ERROR : synatx error, missing ).\n"); 
-        dirdcl1(); 
+        if(token == ')') 
+        {
+            getToken();
+            dirdcl1();
+        }  
+        else printf("ERROR : synatx error, missing )[LAST token = %c].\n", token);  
     }
     else if(token == NAME)
     {
         varName = token_data.identifier; 
+        getToken(); 
         dirdcl1(); 
     }
     return; 
@@ -47,11 +54,12 @@ void dirdcl(void)
 
 void dirdcl1(void)
 {
+    printf("dirdcl1\n"); 
     if(token == '(')
     {
         getToken();
         if(token == ')') dirdcl1(); 
-        else printf("ERROR: syntax error, missing ).\n"); 
+        else printf("ERROR: syntax error, missing ) [last token = %c].\n", token); 
     }
     else if(token == '[')
     {
@@ -63,6 +71,7 @@ void dirdcl1(void)
 
 void dirdcl2(void)
 {
+    printf("dirdcl2\n"); 
     if(token == ']')
     {
         getToken(); 
@@ -75,7 +84,7 @@ void dirdcl2(void)
         {
             dirdcl1(); 
         }
-        else printf("ERROR: missing ].\n"); 
+        else printf("ERROR: missing ].[last token %c]\n", token); 
     }
     return; 
 }
