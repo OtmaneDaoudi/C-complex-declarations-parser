@@ -9,5 +9,6 @@ int main(void)
 {
     getToken();
     dcl(); 
+    printf("done\n"); 
     return 0; 
 }
