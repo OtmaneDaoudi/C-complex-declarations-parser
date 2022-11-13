@@ -28,3 +28,4 @@ dirdcl2 ==> ] dirdcl1 | number ] dirdcl1
 -No support for constants declaration.<br />
 
 # Examples:
+![examples](https://user-images.githubusercontent.com/63020343/201544807-5da66464-ce43-4afc-87b6-eecb0c3550ca.png)
