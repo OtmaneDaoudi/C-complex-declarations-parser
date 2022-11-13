@@ -189,7 +189,7 @@ void parseDataType(void)
     scanf("%s", datatype); 
     // printf("parsed string : %s\n", datatype); 
     if(strcmp(datatype, "char") == 0 || strcmp(datatype, "int") == 0 || strcmp(datatype, "float") == 0 
-        || strcmp(datatype, "double") == 0 || strcmp(datatype, "short") == 0)
+        || strcmp(datatype, "double") == 0 || strcmp(datatype, "short") == 0 || strcmp(datatype, "void") == 0)
     {
         getchar(); //consume remaining space
         return;
