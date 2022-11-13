@@ -20,3 +20,11 @@ dirdcl2 ==> ] dirdcl1 | number ] dirdcl1
 | dirdcl  |  | dirdcl ==> ( dcl ) dirdcl1 |  |  |  |  | dirdcl ==> id dirdcl1 |  |
 | dirdcl1  |  | dirdcl1 ==> ( ) dirdcl1 | dirdcl1 ==> epsilon | dirdcl1 ==> [ dirdcl2 |  |  | | dirdcl1 ==> epsilon |
 | dirdcl2  | |  |  |  | dirdcl2 ==> ] dirdcl1 | dirdcl2 ==> number ] dirdcl1 |  |  |
+
+# Notes:
+-The program only support identifiers with one character.<br />
+-Supports one-digit array lengths.<br />
+-No support for function args.<br />
+-No support for constants declaration.<br />
+
+# Examples:
