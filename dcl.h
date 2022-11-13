@@ -10,6 +10,7 @@
 #define MAX_BUFFER_SIZE 200
 
 enum TOKENS{NAME, NUMBER, END};
+enum CLASSES{POINTER, FUNCTION, ARRAY_SIZE, ARRAY};
 
 union token_t
 {
