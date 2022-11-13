@@ -1,9 +1,4 @@
 #include "dcl.h"
-/*swapping happens at :
-    dcl : if preceeded by a "pointer to " then, swap and merge
-    dirdcl : 
-        merge last two elements
-*/ 
 
 char token = 0;
 token_t token_data;  
@@ -11,52 +6,44 @@ token_t token_data;
 char * ouput[20];
 int output_size = 0; 
   
-char datatype[MAX_TOKEN_SIZE];
 char varname; 
 
 void dcl(void)
 {
-    // printf("dcl\n");
     if(token == '*' || token == '(' || token == NAME)
     {
         A(); 
         dirdcl(); 
-        //output processin checkpoint
+
         if(output_size > 1)
         {
             int last = output_size-1; 
             if(strcmp(ouput[last-1], "pointer to ") == 0)
             {
-                //swap and merge
-                //extend last
+                //swap and merge last two elements
                 ouput[last] = realloc(ouput[last], strlen(ouput[last]) + 13); 
-                strcat(ouput[last], " pointer to ");
-                //swap
+                strcat(ouput[last], "pointer to ");
                 free(ouput[last-1]); 
-                ouput[last-1] = ouput[last]; 
-                // free(ouput[last]); 
-                // printf("output last : %s\n", ouput[last]); 
+                ouput[last-1] = ouput[last];  
                 output_size--; 
-                printf("swap & merge at dcl : "); for(int i=0; i<output_size; i++) printf("%s", ouput[i]); printf("\n"); 
+                // printf("swap & merge at dcl : "); for(int i=0; i<output_size; i++) printf("%s", ouput[i]); printf("\n"); 
             }
             else{
-                //add last to last-1 and free last
+                //merge last tow elements
                 ouput[last-1] = realloc(ouput[last - 1], strlen(ouput[last - 1]) + 1 + strlen(ouput[last]) + 1); 
                 strcat(ouput[last - 1], ouput[last]);
                 free(ouput[last]); 
                 output_size--;
-                printf("merge at dcl : "); for(int i=0; i<output_size; i++) printf("%s", ouput[i]); printf("\n"); 
-
+                // printf("merge at dcl : "); for(int i=0; i<output_size; i++) printf("%s", ouput[i]); printf("\n"); 
             }
         }
     }
     else if(token == '(') return; 
-    else printf("Syntax error at %c\n", token); 
+    else syntaxError(NULL); 
 }
 
 void A(void)
 {
-    // printf("A\n"); 
     if(token == '*') 
     {
         getToken();
@@ -67,12 +54,11 @@ void A(void)
         output_size++; 
     }
     else if(token == '(' || token == NAME) return; 
-    else printf("Syntax error at %c\n", token); 
+    else syntaxError(NULL); 
 }
 
 void dirdcl(void)
 {
-    // printf("dirdcl\n"); 
     if(token == '(') 
     {
         getToken(); 
@@ -81,35 +67,29 @@ void dirdcl(void)
         {
             getToken();
             dirdcl1();
+
             // merge last two elements
             if(output_size > 1)
             {
-                printf("here\n"); 
                 int last = output_size - 1; 
                 ouput[last - 1] = realloc(ouput[last - 1], strlen(ouput[last - 1]) + 1 + strlen(ouput[last]) + 1); 
                 strcat(ouput[last - 1], ouput[last]);
                 free(ouput[last]);
-                // ouput[last-1] = ouput[last]; 
-                // free(ouput[last]); 
                 output_size--; 
-                printf("merge at dirdcl : "); for(int i=0; i<output_size; i++) printf("%s", ouput[i]); printf("\n"); 
+                // printf("merge at dirdcl : "); for(int i=0; i<output_size; i++) printf("%s", ouput[i]); printf("\n"); 
             }
         }  
-        else printf("ERROR : synatx error, missing )[LAST token = %c].\n", token);  
+        else syntaxError("missing ).");  
     }
     else if(token == NAME)
     {
         varname = token_data.identifier; 
-        // //push "name is a "        
-        // ouput[output_size] = (char*)malloc(8); 
-        // snprintf(ouput[output_size], 8, "%c is a ", token_data.identifier);
-        // output_size++; 
 
         getToken(); 
         dirdcl1(); 
-        printf("no merge at dirdcl : "); for(int i=0; i<output_size; i++) printf("%s", ouput[i]); printf("\n");
+        // printf("no merge at dirdcl : "); for(int i=0; i<output_size; i++) printf("%s", ouput[i]); printf("\n");
     }
-    else printf("Syntax error at %c\n", token); 
+    else syntaxError(NULL); 
 }
 
 void dirdcl1(void)
@@ -128,7 +108,7 @@ void dirdcl1(void)
             getToken(); 
             dirdcl1(); 
         }
-        else printf("ERROR: syntax error, missing ) [last token = %c].\n", token); 
+        else syntaxError("missing )."); 
     }
     else if(token == ')' || token == END) return; 
     else if(token == '[')
@@ -136,12 +116,11 @@ void dirdcl1(void)
         getToken();
         dirdcl2(); 
     }
-    else printf("Synatx error at %c\n", token); 
+    else syntaxError(NULL); 
 }
 
 void dirdcl2(void)
 {
-    // printf("dirdcl2\n"); 
     if(token == ']')
     {
         //push "array of "
@@ -166,16 +145,15 @@ void dirdcl2(void)
             getToken(); 
             dirdcl1(); 
         }
-        else printf("ERROR: missing ].[last token %c]\n", token); 
+        else syntaxError("missing ]."); 
     }
-    else printf("Synatx error at %c\n", token);
+    else syntaxError(NULL);
     return; 
 }
 
 void getToken(void)
 {
     //works only with one char identifiers and one-digit sizes
-    //can be further obtimized with automatons
     char c = getchar();
 
     if(token == END) return; 
@@ -186,8 +164,9 @@ void getToken(void)
     else if(c == '(' || c == ')' || c == ']' || c == '[' || c == '*') token = c; //[ ] ( ) *
     else if(isdigit(c)) // NUMBER
     {
+        char num[2] = {c, 0};
         token = NUMBER; 
-        token_data.size = atoi(&c); 
+        token_data.size = atoi(num); 
     }
     else if(isalpha(c)) // NAME
     {
@@ -199,4 +178,32 @@ void getToken(void)
         printf("ERROR : %c is not a valid input\n", c); 
         exit(EXIT_FAILURE); 
     }
+}
+
+char datatype[20];
+
+void parseDataType(void)
+{
+    int c = getchar(); 
+    ungetc(c, stdin); 
+    scanf("%s", datatype); 
+    // printf("parsed string : %s\n", datatype); 
+    if(strcmp(datatype, "char") == 0 || strcmp(datatype, "int") == 0 || strcmp(datatype, "float") == 0 
+        || strcmp(datatype, "double") == 0 || strcmp(datatype, "short") == 0)
+    {
+        getchar(); //consume remaining space
+        return;
+    }
+    else {
+        printf("Datatype error.\n"); 
+        exit(EXIT_FAILURE); 
+    }
+    
+}
+
+void syntaxError(const char * msg)
+{
+    if(msg == NULL) printf("Syntax error."); 
+    else printf("Syntax error: %s\n", msg); 
+    exit(EXIT_FAILURE); 
 }

@@ -6,11 +6,7 @@
 #include<string.h>
 #include<stdlib.h>
 
-#define MAX_TOKEN_SIZE 100
-#define MAX_BUFFER_SIZE 200
-
 enum TOKENS{NAME, NUMBER, END};
-enum CLASSES{POINTER, FUNCTION, ARRAY_SIZE, ARRAY};
 
 union token_t
 {
@@ -25,5 +21,7 @@ void dirdcl(void);
 void dirdcl1(void); 
 void dirdcl2(void); 
 
+void parseDataType(void); 
+void syntaxError(const char *); 
 void getToken(void); //fetch next token from stdin
 #endif
