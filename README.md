@@ -1,4 +1,4 @@
-A simple C program that converts a complicated declaration into a human readable text.
+A C program that converts a complicated declaration into a human readable text.
 
 This is an exercice from the book : The ANSI C programming Language, but with a more advanced implmentation.
 
