@@ -1,4 +1,4 @@
-This is an exercise from the book: The ANSI C programming Language, but with a more advanced implementation.
+This is an exercise from the book: The ANSI C Programming Language, but with a more advanced implementation.
 
 basically, I extended the grammar by eliminating left recursivity and applying left factoring.
 # Grammer:
