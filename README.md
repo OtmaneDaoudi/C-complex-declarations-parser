@@ -1,8 +1,6 @@
-A C program that converts a complicated declaration into a human readable text.
+This is an exercise from the book: The ANSI C programming Language, but with a more advanced implementation.
 
-This is an exercice from the book : The ANSI C programming Language, but with a more advanced implmentation.
-
-basically, i extended the grammer by eliminating left recursivity, and applying left factoring.
+basically, I extended the grammar by eliminating left recursivity and applying left factoring.
 # Grammer:
 ```
 dcl     ==> A dirdcl
@@ -22,7 +20,7 @@ dirdcl2 ==> ] dirdcl1 | number ] dirdcl1
 | dirdcl2  | |  |  |  | dirdcl2 ==> ] dirdcl1 | dirdcl2 ==> number ] dirdcl1 |  |  |
 
 # Notes:
--The program only support identifiers with one character.<br />
+-The program only supports identifiers with one character.<br />
 -Supports one-digit array lengths.<br />
 -No support for function args.<br />
 -No support for constants declaration.<br />
