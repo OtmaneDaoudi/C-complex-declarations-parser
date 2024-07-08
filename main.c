@@ -9,6 +9,7 @@ extern char datatype[20];
 
 int main(void)
 {
+    // Example run
     parseDataType(); 
     getToken();
     dcl(); 

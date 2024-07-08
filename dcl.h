@@ -24,4 +24,5 @@ void dirdcl2(void);
 void parseDataType(void); 
 void syntaxError(const char *); 
 void getToken(void); //fetch next token from stdin
+
 #endif

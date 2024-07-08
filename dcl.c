@@ -26,7 +26,6 @@ void dcl(void)
                 free(ouput[last-1]); 
                 ouput[last-1] = ouput[last];  
                 output_size--; 
-                // printf("swap & merge at dcl : "); for(int i=0; i<output_size; i++) printf("%s", ouput[i]); printf("\n"); 
             }
             else{
                 //merge last tow elements
@@ -34,7 +33,6 @@ void dcl(void)
                 strcat(ouput[last - 1], ouput[last]);
                 free(ouput[last]); 
                 output_size--;
-                // printf("merge at dcl : "); for(int i=0; i<output_size; i++) printf("%s", ouput[i]); printf("\n"); 
             }
         }
     }
@@ -76,7 +74,6 @@ void dirdcl(void)
                 strcat(ouput[last - 1], ouput[last]);
                 free(ouput[last]);
                 output_size--; 
-                // printf("merge at dirdcl : "); for(int i=0; i<output_size; i++) printf("%s", ouput[i]); printf("\n"); 
             }
         }  
         else syntaxError("missing ).");  
@@ -87,20 +84,18 @@ void dirdcl(void)
 
         getToken(); 
         dirdcl1(); 
-        // printf("no merge at dirdcl : "); for(int i=0; i<output_size; i++) printf("%s", ouput[i]); printf("\n");
     }
     else syntaxError(NULL); 
 }
 
 void dirdcl1(void)
 {
-    // printf("dirdcl1\n"); 
     if(token == '(')
     {
         getToken();
         if(token == ')') 
         {
-            //push "function returning " 20
+            //push "function returning "
             ouput[output_size] = (char*)malloc(20); 
             strcpy(ouput[output_size], "function returning "); 
             output_size++;
@@ -153,7 +148,7 @@ void dirdcl2(void)
 
 void getToken(void)
 {
-    //works only with one char identifiers and one-digit sizes
+    //only with one char identifiers and one-digit sizes
     char c = getchar();
 
     if(token == END) return; 
@@ -187,7 +182,6 @@ void parseDataType(void)
     int c = getchar(); 
     ungetc(c, stdin); 
     scanf("%s", datatype); 
-    // printf("parsed string : %s\n", datatype); 
     if(strcmp(datatype, "char") == 0 || strcmp(datatype, "int") == 0 || strcmp(datatype, "float") == 0 
         || strcmp(datatype, "double") == 0 || strcmp(datatype, "short") == 0 || strcmp(datatype, "void") == 0)
     {
