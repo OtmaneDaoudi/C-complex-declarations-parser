@@ -1,6 +1,6 @@
-This is an exercise from the book: The ANSI C Programming Language, but with a more advanced implementation.
+This is an exercise from the book: [The ANSI C Programming Language](https://www.amazon.com/Programming-Language-2nd-Brian-Kernighan/dp/0131103628), but with a more advanced implementation.
 
-basically, I extended the grammar by eliminating left recursivity and applying left factoring.
+I extended the grammar by eliminating left recursivity and applying left factoring.
 # Grammer:
 ```
 dcl     ==> A dirdcl
